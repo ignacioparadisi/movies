@@ -64,12 +64,12 @@ class MovieCell: CustomCollectionViewListCell {
         ])
     }
     
-    func configure(with movie: Movie) {
-        imageView.load(from: movie.posterPath)
-        titleLabel.text = movie.title
-        releaseDateLabel.text = movie.releaseDate.formatted(date: .long, time: .omitted)
+    func configure(with viewModel: ViewModel) {
+        imageView.load(from: viewModel.imagePath)
+        titleLabel.text = viewModel.title
+        releaseDateLabel.text = viewModel.releaseDate
         ratingView?.removeFromSuperview()
-        ratingView = RatingView(rating: movie.voteAverage / 2)
+        ratingView = RatingView(rating: viewModel.rating)
         ratingView?.font = .preferredFont(for: .caption1)
         textStackView.addArrangedSubview(ratingView!)
     }

@@ -73,7 +73,7 @@ class MoviesListViewController: UICollectionViewController {
                 }
             } catch {
                 let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .default))
+                alert.addAction(UIAlertAction(title: LocalizationStrings.Button.dismiss, style: .default))
                 present(alert, animated: true)
             }
         }
@@ -103,7 +103,8 @@ extension MoviesListViewController {
     
     private func getCellRegistration() -> UICollectionView.CellRegistration<MovieCell, Movie> {
         return UICollectionView.CellRegistration { cell, indexPath, movie in
-            cell.configure(with: movie)
+            let cellViewModel = MovieCell.ViewModel(movie: movie)
+            cell.configure(with: cellViewModel)
         }
     }
     
