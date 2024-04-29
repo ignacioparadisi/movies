@@ -8,7 +8,7 @@
 import UIKit
 
 class DropShadowImageView: UIView {
-    private let imageView = UIImageView()
+    private let imageView = URLImageView()
     private let cornerRadius: CGFloat
     private let shadowColor: UIColor
     private let shadowRadius: CGFloat
@@ -56,7 +56,7 @@ class DropShadowImageView: UIView {
         imageView.layer.masksToBounds = true
     }
     
-    func load(from url: String) -> Task<Void, Error>? {
-        return imageView.load(from: url)
+    func load(from url: String) {
+        imageView.load(from: url)
     }
 }

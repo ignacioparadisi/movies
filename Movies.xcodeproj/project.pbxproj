@@ -46,6 +46,7 @@
 		32644E2F2BDAB7F9000B1A0C /* CustomCollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32644E2E2BDAB7F9000B1A0C /* CustomCollectionViewListCell.swift */; };
 		32644E312BDAB81A000B1A0C /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32644E302BDAB81A000B1A0C /* MovieCell.swift */; };
 		32644E342BDAB867000B1A0C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32644E332BDAB867000B1A0C /* UIImageView+Extension.swift */; };
+		329427742BE029D300A05B82 /* URLImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329427732BE029D300A05B82 /* URLImageView.swift */; };
 		32BFD7F32BDAC480009A2A8E /* MovieDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BFD7F22BDAC480009A2A8E /* MovieDetailViewModel.swift */; };
 		32BFD7F52BDAC707009A2A8E /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BFD7F42BDAC707009A2A8E /* RatingView.swift */; };
 /* End PBXBuildFile section */
@@ -113,6 +114,7 @@
 		32644E2E2BDAB7F9000B1A0C /* CustomCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewListCell.swift; sourceTree = "<group>"; };
 		32644E302BDAB81A000B1A0C /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		32644E332BDAB867000B1A0C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		329427732BE029D300A05B82 /* URLImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImageView.swift; sourceTree = "<group>"; };
 		32BFD7F22BDAC480009A2A8E /* MovieDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailViewModel.swift; sourceTree = "<group>"; };
 		32BFD7F42BDAC707009A2A8E /* RatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -364,6 +366,7 @@
 				32644E292BDAB7B2000B1A0C /* DropShadowView.swift */,
 				32644E2E2BDAB7F9000B1A0C /* CustomCollectionViewListCell.swift */,
 				32BFD7F42BDAC707009A2A8E /* RatingView.swift */,
+				329427732BE029D300A05B82 /* URLImageView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			files = (
 				32624DDE2BD9978500A4A197 /* MoviesListViewController.swift in Sources */,
 				32624E272BD9B5EB00A4A197 /* RemoteDataSourceProvider.swift in Sources */,
+				329427742BE029D300A05B82 /* URLImageView.swift in Sources */,
 				32624E382BD9BD4800A4A197 /* Page.swift in Sources */,
 				32624E352BD9BAB500A4A197 /* RemoteDataSource.swift in Sources */,
 				32644E342BDAB867000B1A0C /* UIImageView+Extension.swift in Sources */,

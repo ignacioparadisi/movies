@@ -13,7 +13,6 @@ class MovieDetailViewController: UIViewController {
     private let imageHeight: CGFloat = 400
     private let imageView = DropShadowImageView(cornerRadius: 20, shadowRadius: 20, shadowOpacity: 0.6)
     private let stackView: UIStackView = UIStackView()
-    private var imageTask: Task<Void, Error>?
     let viewModel: ViewModel
     
     init(viewModel: ViewModel) {
@@ -119,11 +118,6 @@ class MovieDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        imageTask = imageView.load(from: viewModel.imagePath)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        imageTask?.cancel()
+        imageView.load(from: viewModel.imagePath)
     }
 }

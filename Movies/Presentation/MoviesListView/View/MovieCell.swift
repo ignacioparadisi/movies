@@ -9,7 +9,6 @@ import UIKit
 
 class MovieCell: CustomCollectionViewListCell {
     private let imageHeight: CGFloat = 100
-    private var task: Task<Void, Error>?
     private let imageView: DropShadowImageView = {
         let imageView = DropShadowImageView(cornerRadius: 8, shadowRadius: 5, shadowOpacity: 0.3)
         imageView.contentMode = .scaleAspectFill
@@ -51,19 +50,21 @@ class MovieCell: CustomCollectionViewListCell {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(stackView)
+        
+        let imageViewHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: imageHeight)
+        imageViewHeightConstraint.priority = UILayoutPriority(999)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            imageView.heightAnchor.constraint(equalToConstant: imageHeight),
+            imageViewHeightConstraint,
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 2/3)
         ])
     }
     
     func configure(with movie: Movie) {
-        task?.cancel()
-        task = imageView.load(from: movie.posterPath)
+        imageView.load(from: movie.posterPath)
         titleLabel.text = movie.title
         releaseDateLabel.text = movie.releaseDate.formatted(date: .long, time: .omitted)
         ratingView?.removeFromSuperview()
