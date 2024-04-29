@@ -31,7 +31,7 @@ extension MoviesListViewController {
             task?.cancel()
             var nextPageNumber: Int?
             if fromStart {
-                nextPageNumber = 0
+                nextPageNumber = 1
             } else {
                 nextPageNumber = getNextPageNumber()
             }

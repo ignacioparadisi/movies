@@ -58,16 +58,16 @@ class MoviesListViewController: UICollectionViewController {
     
     private func setupRefreshControl() {
         let action = UIAction { [weak self] _ in
-            self?.fetchMovies()
+            self?.fetchMovies(fromStart: true)
         }
         refreshControl.addAction(action, for: .valueChanged)
         collectionView.refreshControl = refreshControl
     }
     
-    private func fetchMovies() {
+    private func fetchMovies(fromStart: Bool = false) {
         Task {
             do {
-                try await viewModel.fetchMovies()
+                try await viewModel.fetchMovies(fromStart: fromStart)
                 await MainActor.run {
                     refreshControl.endRefreshing()
                 }
