@@ -21,7 +21,7 @@ class DropShadowImageView: UIView {
         }
     }
     
-    init(cornerRadius: CGFloat, shadowRadius: CGFloat = 3, shadowColor: UIColor = .black, shadowOpacity: Float = 0.2, shadowOffset: CGSize = .zero) {
+    init(cornerRadius: CGFloat, shadowRadius: CGFloat = 3, shadowColor: UIColor = .systemGray, shadowOpacity: Float = 0.2, shadowOffset: CGSize = .zero) {
         self.cornerRadius = cornerRadius
         self.shadowRadius = shadowRadius
         self.shadowColor = shadowColor
