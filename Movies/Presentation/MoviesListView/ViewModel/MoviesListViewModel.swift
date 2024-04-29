@@ -20,17 +20,32 @@ extension MoviesListViewController {
             self.repository = repository
         }
         
-        func fetchMovies() async throws {
-            guard !isLoading, let nextPageNumber = getNextPageNumber() else { return }
+        var totalNumberOfItems: Int {
+            return page?.totalResults ?? 0
+        }
+        
+        func fetchMovies(fromStart: Bool = false) async throws {
+            guard !isLoading else { return }
             isLoading = true
             defer { isLoading = false }
             task?.cancel()
+            var nextPageNumber: Int?
+            if fromStart {
+                nextPageNumber = 0
+            } else {
+                nextPageNumber = getNextPageNumber()
+            }
+            guard let nextPageNumber else { return }
             task = Task {
                 return try await repository.getTopRatedMovies(for: nextPageNumber)
             }
             page = try await task?.value
             if let page {
-                movies.append(contentsOf: page.results)
+                if fromStart {
+                    movies = page.results
+                } else {
+                    movies.append(contentsOf: page.results)
+                }
             }
         }
         

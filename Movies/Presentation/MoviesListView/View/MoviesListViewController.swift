@@ -12,6 +12,7 @@ class MoviesListViewController: UICollectionViewController {
     private let viewModel: ViewModel
     private var cancellables = Set<AnyCancellable>()
     private var dataSource: UICollectionViewDiffableDataSource<Int, Movie>!
+    private let refreshControl = UIRefreshControl()
     
     init(viewModel: ViewModel = ViewModel()) {
         self.viewModel = viewModel
@@ -52,12 +53,24 @@ class MoviesListViewController: UICollectionViewController {
         setCollectionViewLayout()
         createDataSource()
         applySnapshot()
+        setupRefreshControl()
+    }
+    
+    private func setupRefreshControl() {
+        let action = UIAction { [weak self] _ in
+            self?.fetchMovies()
+        }
+        refreshControl.addAction(action, for: .valueChanged)
+        collectionView.refreshControl = refreshControl
     }
     
     private func fetchMovies() {
         Task {
             do {
                 try await viewModel.fetchMovies()
+                await MainActor.run {
+                    refreshControl.endRefreshing()
+                }
             } catch {
                 let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: .default))
@@ -65,30 +78,52 @@ class MoviesListViewController: UICollectionViewController {
             }
         }
     }
-    
-    
-    
 }
 
 // MARK: - Collection View Setup
 extension MoviesListViewController {
     private func setCollectionViewLayout() {
-        let listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        listConfiguration.footerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
     
     private func createDataSource() {
         let cellRegistration = getCellRegistration()
+        let footerRegistration = getLoadingFooterRegistration()
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, movie in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: movie)
         })
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            return collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: indexPath)
+        }
         collectionView.dataSource = dataSource
     }
     
     private func getCellRegistration() -> UICollectionView.CellRegistration<MovieCell, Movie> {
         return UICollectionView.CellRegistration { cell, indexPath, movie in
             cell.configure(with: movie)
+        }
+    }
+    
+    private func getLoadingFooterRegistration() -> UICollectionView.SupplementaryRegistration<UICollectionViewListCell> {
+        return UICollectionView.SupplementaryRegistration(elementKind: UICollectionView.elementKindSectionFooter) { [weak self] supplementaryView, elementKind, indexPath in
+            let loadingIndicator = UIActivityIndicatorView(style: .medium)
+            supplementaryView.addSubview(loadingIndicator)
+            loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                loadingIndicator.topAnchor.constraint(equalTo: supplementaryView.topAnchor, constant: 16),
+                loadingIndicator.bottomAnchor.constraint(equalTo: supplementaryView.bottomAnchor, constant: -16),
+                loadingIndicator.centerXAnchor.constraint(equalTo: supplementaryView.centerXAnchor),
+                loadingIndicator.centerYAnchor.constraint(equalTo: supplementaryView.centerYAnchor)
+            ])
+            guard let self else { return }
+            if viewModel.totalNumberOfItems == 0 || indexPath.item < viewModel.totalNumberOfItems {
+                loadingIndicator.startAnimating()
+            } else {
+                loadingIndicator.stopAnimating()
+            }
         }
     }
     

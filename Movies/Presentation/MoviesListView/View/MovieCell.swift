@@ -25,6 +25,8 @@ class MovieCell: CustomCollectionViewListCell {
         label.font = .preferredFont(for: .footnote)
         return label
     }()
+    private var ratingView: RatingView?
+    private var textStackView: UIStackView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,8 +37,7 @@ class MovieCell: CustomCollectionViewListCell {
         super.init(coder: coder)
         initialize()
     }
-    private var ratingView: RatingView?
-    private var textStackView: UIStackView!
+    
     private func initialize() {
         accessories = [.disclosureIndicator()]
         textStackView = UIStackView(arrangedSubviews: [titleLabel, releaseDateLabel])
@@ -71,6 +72,5 @@ class MovieCell: CustomCollectionViewListCell {
         ratingView = RatingView(rating: movie.voteAverage / 2)
         ratingView?.font = .preferredFont(for: .caption1)
         textStackView.addArrangedSubview(ratingView!)
-        
     }
 }
